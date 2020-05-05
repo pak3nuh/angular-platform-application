@@ -1,27 +1,52 @@
 # Platform
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.4.
+A test application that simulates a platform using several developed external libraries.
 
-## Development server
+## Use cases
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#### External libraries
 
-## Code scaffolding
+Use external libraries that consume platform services. This is the standard approach
+provided by Angular to create shared resources.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+We should successfully create external components and services that are built and
+tested completely in separate, and use them in the platform. Some of these services
+will require dependencies that aren't provided within the library itself and must
+be provided by the platform. This architecture will ensure loose coupling and separation
+of conserns.
 
-## Build
+##### Additional requirements
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+For these projects to work correctly, the libraries must be compiled against an
+angular version that is compatible with the platform version. **This should be an
+automatic validation and should break the build.**
 
-## Running unit tests
+#### Standalone web components
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Use external libraries as standalone [web components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)
+with the help of [angular elements](https://angular.io/guide/elements).
 
-## Running end-to-end tests
+Because these are completely separate apps bundled as a custom element, they
+don't need to be built against the same Angular version.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+As a downside this approach isn't very resource friendly because will bundle
+and entire app within an element, not allowing dependency sharing or introspection.
 
-## Further help
+### Folder dependencies
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+For testing purposes we can use folder dependencies and avoid a npm registry.
+For this to work correctly we must tell the angular compiler to use symbolic links
+in `angular.json`:
+````json
+{
+  "projects": {
+    "platform": {
+      "architect": {
+        "options": {
+          "preserveSymlinks": true
+        }
+      }
+    }
+  }
+}
+````

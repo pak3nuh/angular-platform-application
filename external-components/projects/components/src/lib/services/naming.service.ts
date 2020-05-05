@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
 
-// todo confirm injection through platform
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NamingService implements ExternalNamingService {
 
   constructor(private _delegate: ExternalNamingService) {

@@ -1,17 +1,16 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import {ComponentsModule, ExternalNamingService, NamingService} from "external-components";
-
-class MyNamingService implements ExternalNamingService {
-    appName = 'My platform app'
-}
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent, ComponentProvidedService, PlatformProvidedService} from './app.component';
+import {ComponentsModule, NamingService} from 'external-components';
+import {PlatformNamingService} from './platform-naming.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ComponentProvidedService,
+    PlatformProvidedService
   ],
   imports: [
     BrowserModule,
@@ -19,7 +18,7 @@ class MyNamingService implements ExternalNamingService {
     ComponentsModule
   ],
   providers: [
-    { provide: NamingService, useValue: new NamingService(new MyNamingService()) }
+    { provide: NamingService, useValue: new NamingService(new PlatformNamingService("Module")) }
   ],
   bootstrap: [AppComponent]
 })
