@@ -8,11 +8,10 @@ import {PlatformNamingService} from './platform-naming.service';
     <platform-provided-service></platform-provided-service>
     <component-provided-service></component-provided-service>
   `,
-  styleUrls: ['./app.component.sass'],
+  styleUrls: [],
 
 })
 export class AppComponent {
-  title = 'platform';
 }
 
 @Component({
